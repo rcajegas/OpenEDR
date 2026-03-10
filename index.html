@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>AI EDR Dashboard</title>
+<style>
+body{
+font-family: Arial;
+background:white;
+}
+
+h1{
+color:orange;
+}
+
+button{
+background:orange;
+border:none;
+padding:10px;
+color:white;
+cursor:pointer;
+}
+
+table{
+width:100%;
+border-collapse:collapse;
+}
+
+td,th{
+border:1px solid #ddd;
+padding:8px;
+}
+</style>
+</head>
+
+<body>
+
+<h1>AI EDR Dashboard</h1>
+
+<button onclick="loadAlerts()">Refresh Alerts</button>
+
+<table>
+<thead>
+<tr>
+<th>Process</th>
+<th>PID</th>
+<th>Command</th>
+</tr>
+</thead>
+
+<tbody id="alerts"></tbody>
+
+</table>
+
+<script>
+
+function loadAlerts(){
+fetch("http://localhost:5000/alerts")
+.then(res=>res.json())
+.then(data=>{
+let html=""
+
+data.forEach(a=>{
+html+=`<tr>
+<td>${a.process}</td>
+<td>${a.pid}</td>
+<td>${a.cmdline}</td>
+</tr>`
+})
+
+document.getElementById("alerts").innerHTML=html
+})
+}
+
+</script>
+
+</body>
+</html>
